@@ -1,0 +1,79 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Host Directive Example</mat-card-title>
+    <mat-card-subtitle>Draggable elements with host listeners and bindings</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="example-section">
+      <h3>Draggable Elements</h3>
+      
+      <div class="controls">
+        <mat-slide-toggle [(ngModel)]="isDraggingEnabled">
+          Enable Dragging
+        </mat-slide-toggle>
+      </div>
+
+      <div class="draggable-container">
+        <div class="draggable-item card" [appDraggable]="isDraggingEnabled()">
+          <mat-icon>drag_indicator</mat-icon>
+          <span>Drag me around</span>
+        </div>
+
+        <div class="draggable-item button" [appDraggable]="isDraggingEnabled()">
+          <mat-icon>touch_app</mat-icon>
+          <span>Draggable Button</span>
+        </div>
+
+        <div class="draggable-item image" [appDraggable]="isDraggingEnabled()">
+          <mat-icon>image</mat-icon>
+          <span>Draggable Image</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="example-section">
+      <h3>Code Example</h3>
+      <ng-container ngNonBindable>
+      <pre><code>&#64;Directive({{ '{' }}
+  selector: '[appDraggable]',
+  standalone: true,
+  host: {{ '{' }}
+    '[class.draggable]': 'true',
+    '[class.dragging]': 'isDragging()',
+    '[style.position]': '"relative"',
+    '[style.cursor]': '"move"',
+    '[style.user-select]': '"none"'
+  {{ '}' }}
+{{ '}' }})
+export class DraggableDirective {{ '{' }}
+  private readonly isDragging = signal(false);
+  private readonly position = signal&lt;Position&gt;({{ '{' }} x: 0, y: 0 {{ '}' }});
+
+  &#64;HostBinding('style.transform')
+  get transform(): string {{ '{' }}
+    const {{ '{' }} x, y {{ '}' }} = this.position();
+    return `translate(${{ '{' }}x{{ '}' }}, ${{ '{' }}y{{ '}' }})`;
+  {{ '}' }}
+
+  &#64;HostListener('mousedown', ['$event'])
+  onMouseDown(event: MouseEvent): void {{ '{' }}
+    this.isDragging.set(true);
+    this.initialPosition.set({{ '{' }}
+      x: event.clientX - this.position().x,
+      y: event.clientY - this.position().y
+    {{ '}' }});
+  {{ '}' }}
+
+  &#64;HostListener('document:mousemove', ['$event'])
+  onMouseMove(event: MouseEvent): void {{ '{' }}
+    if (!this.isDragging()) return;
+    const x = event.clientX - this.initialPosition().x;
+    const y = event.clientY - this.initialPosition().y;
+    this.position.set({{ '{' }} x, y {{ '}' }});
+  {{ '}' }}
+{{ '}' }}
+</code></pre>
+      </ng-container>
+    </div>
+  </mat-card-content>
+</mat-card> 
