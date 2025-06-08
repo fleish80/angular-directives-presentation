@@ -1,4 +1,4 @@
-import { Directive, Input, TemplateRef, ViewContainerRef, signal } from '@angular/core';
+import { Directive, Input, TemplateRef, ViewContainerRef, signal, inject } from '@angular/core';
 
 type Permission = 'admin' | 'user' | 'guest';
 
@@ -9,11 +9,8 @@ type Permission = 'admin' | 'user' | 'guest';
 export class PermissionDirective {
   private readonly currentPermission = signal<Permission>('guest');
   private hasView = false;
-
-  constructor(
-    private templateRef: TemplateRef<unknown>,
-    private viewContainer: ViewContainerRef
-  ) {}
+  private readonly templateRef = inject(TemplateRef<unknown>);
+  private readonly viewContainer = inject(ViewContainerRef);
 
   @Input() set appPermission(permission: Permission) {
     this.currentPermission.set(permission);
