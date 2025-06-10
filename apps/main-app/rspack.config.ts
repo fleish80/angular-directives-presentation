@@ -48,7 +48,12 @@ export default createConfig(
         optimization: false,
         vendorChunk: true,
         extractLicenses: false,
-        sourceMap: true,
+        sourceMap: {
+          scripts: true,
+          styles: true,
+          hidden: false,
+          vendor: true
+        },
         namedChunks: true,
         devServer: {},
       },

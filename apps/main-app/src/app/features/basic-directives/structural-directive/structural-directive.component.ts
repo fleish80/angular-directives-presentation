@@ -4,9 +4,8 @@ import { MatSelect, MatOption } from '@angular/material/select';
 import { MatFormField, MatLabel } from '@angular/material/form-field';
 import { FormsModule } from '@angular/forms';
 import { PermissionDirective } from './permission.directive';
-import { CodeExampleComponent } from './code-example.component';
 
-type Permission = 'admin' | 'user' | 'guest';
+type Permission = 'admin' | 'user';
 
 @Component({
   selector: 'app-structural-directive',
@@ -23,7 +22,6 @@ type Permission = 'admin' | 'user' | 'guest';
     MatLabel,
     FormsModule,
     PermissionDirective,
-    CodeExampleComponent
   ],
   template: `
     <mat-card>
@@ -39,7 +37,6 @@ type Permission = 'admin' | 'user' | 'guest';
             <mat-select [(ngModel)]="currentRole">
               <mat-option value="admin">Admin</mat-option>
               <mat-option value="user">User</mat-option>
-              <mat-option value="guest">Guest</mat-option>
             </mat-select>
           </mat-form-field>
 
@@ -48,41 +45,26 @@ type Permission = 'admin' | 'user' | 'guest';
             
             <div class="content-block">
               <h5>Admin Only Content</h5>
-              @if (currentRole() === 'admin') {
-                <div *appPermission="'admin'" class="admin-content">
-                  <p>This content is only visible to administrators.</p>
-                  <button mat-raised-button color="warn">Delete All Data</button>
-                </div>
-              } @else {
+              <ng-template #adminElse>
                 <p class="no-access">Access Denied: Admin privileges required</p>
-              }
+              </ng-template>
+              <div *appPermission="currentRole(); appPermissionRequired: 'admin'; appPermissionElse: adminElse" class="admin-content">
+                <p>This content is only visible to administrators.</p>
+                <button mat-raised-button color="warn">Delete All Data</button>
+              </div>
             </div>
 
             <div class="content-block">
               <h5>User Content</h5>
-              @if (currentRole() === 'user' || currentRole() === 'admin') {
-                <div class="user-content">
-                  <p>This content is visible to users and admins.</p>
-                  <button mat-raised-button color="primary">Edit Profile</button>
-                </div>
-              } @else {
+              <ng-template #userElse>
                 <p class="no-access">Access Denied: User privileges required</p>
-              }
-            </div>
-
-            <div class="content-block">
-              <h5>Guest Content</h5>
-              <div class="guest-content">
-                <p>This content is visible to everyone.</p>
-                <button mat-raised-button>View Public Info</button>
+              </ng-template>
+              <div *appPermission="currentRole(); appPermissionRequired: 'user'; appPermissionElse: userElse" class="user-content">
+                <p>This content is visible to users.</p>
+                <button mat-raised-button color="primary">Edit Profile</button>
               </div>
             </div>
           </div>
-        </div>
-
-        <div class="example-section">
-          <h3>Code Example</h3>
-          <app-code-example></app-code-example>
         </div>
       </mat-card-content>
     </mat-card>
@@ -103,7 +85,7 @@ type Permission = 'admin' | 'user' | 'guest';
       border: 1px solid #ddd;
       border-radius: 4px;
     }
-    .admin-content, .user-content, .guest-content {
+    .admin-content, .user-content {
       padding: 10px;
       background-color: #f5f5f5;
       border-radius: 4px;
@@ -115,5 +97,5 @@ type Permission = 'admin' | 'user' | 'guest';
   `]
 })
 export class StructuralDirectiveComponent {
-  currentRole = signal<Permission>('guest');
+  currentRole = signal<Permission>('user');
 } 
