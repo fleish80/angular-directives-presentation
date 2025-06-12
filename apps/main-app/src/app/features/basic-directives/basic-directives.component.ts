@@ -43,9 +43,6 @@ import { MatListItem } from '@angular/material/list';
           <a mat-list-item routerLink="structural" routerLinkActive="active">
             Structural Directive
           </a>
-          <a mat-list-item routerLink="built-in" routerLinkActive="active">
-            Built-in Directives
-          </a>
           <a mat-list-item routerLink="permission-inject" routerLinkActive="active">
             Permission Inject Demo
           </a>

@@ -16,19 +16,15 @@ export const BASIC_DIRECTIVES_ROUTES: Route[] = [
       },
       {
         path: 'highlight-composition',
-        loadComponent: () => import('./attribute-directive/highlight-parent.component').then(m => m.HighlightParentComponent)
+        loadComponent: () => import('../basic/components/directives-composition/highlight-parent.component').then(m => m.HighlightParentComponent)
       },
       {
         path: 'highlight-injected',
-        loadComponent: () => import('./attribute-directive/highlight-injected.component').then(m => m.HighlightInjectedComponent)
+        loadComponent: () => import('../basic/components/directives-composition-inject/highlight-injected.component').then(m => m.HighlightInjectedComponent)
       },
       {
         path: 'structural',
         loadComponent: () => import('./structural-directive/structural-directive.component').then(m => m.StructuralDirectiveComponent)
-      },
-      {
-        path: 'built-in',
-        loadComponent: () => import('./built-in-directives/built-in-directives.component').then(m => m.BuiltInDirectivesComponent)
       },
       {
         path: 'permission-inject',

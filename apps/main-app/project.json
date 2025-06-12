@@ -6,6 +6,64 @@
   "sourceRoot": "apps/main-app/src",
   "tags": [],
   "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:browser",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/apps/main-app",
+        "index": "apps/main-app/src/index.html",
+        "main": "apps/main-app/src/main.ts",
+        "polyfills": ["zone.js"],
+        "tsConfig": "apps/main-app/tsconfig.app.json",
+        "assets": [
+          "apps/main-app/src/favicon.ico",
+          "apps/main-app/src/assets"
+        ],
+        "styles": ["apps/main-app/src/styles.css"],
+        "scripts": []
+      },
+      "configurations": {
+        "production": {
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "500kb",
+              "maximumError": "1mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "4kb",
+              "maximumError": "8kb"
+            }
+          ],
+          "outputHashing": "all"
+        },
+        "development": {
+          "buildOptimizer": false,
+          "optimization": false,
+          "vendorChunk": true,
+          "extractLicenses": false,
+          "sourceMap": true,
+          "namedChunks": true
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "serve": {
+      "executor": "@angular-devkit/build-angular:dev-server",
+      "configurations": {
+        "production": {
+          "buildTarget": "main-app:build:production"
+        },
+        "development": {
+          "buildTarget": "main-app:build:development"
+        }
+      },
+      "defaultConfiguration": "development",
+      "options": {
+        "port": 4201
+      }
+    },
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",
       "options": {

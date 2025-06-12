@@ -13,14 +13,18 @@ export default createConfig(
       polyfills: ['zone.js'],
       tsConfig: './tsconfig.app.json',
       assets: [
-        {
-          glob: '**/*',
-          input: './public',
-        },
+        // {
+        //   glob: '**/*',
+        //   input: './public',
+        //   output: './',
+        // },
       ],
       styles: ['./src/styles.css'],
       scripts: [],
-      devServer: {},
+      devServer: {
+        port: 4201,
+        host: 'localhost',
+      },
     },
   },
   {
@@ -55,7 +59,10 @@ export default createConfig(
           vendor: true
         },
         namedChunks: true,
-        devServer: {},
+        devServer: {
+          port: 4201,
+          host: 'localhost',
+        },
       },
     },
   }

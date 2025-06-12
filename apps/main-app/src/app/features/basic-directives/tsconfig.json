@@ -3,5 +3,5 @@
   "compilerOptions": {
     "types": ["node", "jasmine"]
   },
-  "include": ["**/*.ts"]
+  "include": ["**/*.ts", "../basic/highlight.directive.ts", "../basic/components/directives-composition/highlight-child.component.ts", "../basic/components/directives-composition/highlight-parent.component.ts", "../basic/components/directives-composition-inject/highlight-injected-child.component.ts", "../basic/components/directives-composition-inject/highlight-injected.component.ts"]
 } 
